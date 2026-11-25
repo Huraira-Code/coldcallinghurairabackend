@@ -3,7 +3,7 @@ import Category from "../models/categoryModel.js";
 
 export const createCategory = async (req, res) => {
     try {
-        const { name } = req.body;
+        const { name ,userId } = req.body;
 
         // Validate required fields
         if (!name || !name.trim()) {
@@ -16,6 +16,7 @@ export const createCategory = async (req, res) => {
         // Create Category
         const category = await Category.create({
             name: name.trim(),
+            userId : userId
         });
 
         return res.status(201).json({
@@ -33,9 +34,20 @@ export const createCategory = async (req, res) => {
     }
 };
 
+
 export const getAllCategories = async (req, res) => {
     try {
-        const categories = await Category.find().sort({ createdAt: -1 });
+        const { userId } = req.query;
+
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: "User ID is required",
+            });
+        }
+
+        const categories = await Category.find({ userId })
+            .sort({ createdAt: -1 });
 
         return res.status(200).json({
             success: true,
@@ -43,6 +55,7 @@ export const getAllCategories = async (req, res) => {
             count: categories.length,
             categories,
         });
+
     } catch (error) {
         console.error("Get all Categories error:", error);
 
@@ -52,3 +65,4 @@ export const getAllCategories = async (req, res) => {
         });
     }
 };
+

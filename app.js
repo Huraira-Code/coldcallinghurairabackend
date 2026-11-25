@@ -7,6 +7,7 @@ import connectDB from "./config/database.js";
 import campaignRoute from "./routes/campaignRoutes.js";
 import categoryRoute from "./routes/categoryRoutes.js";
 import contactRoute from "./routes/contactRoutes.js";
+import userRoute from "./routes/userRoutes.js";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 app.use("/api/campaign", campaignRoute);
 app.use("/api/category", categoryRoute);
 app.use("/api/contact", contactRoute);
+app.use("/api/user", userRoute);
 
 // Connect DB
 await connectDB();

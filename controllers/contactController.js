@@ -288,7 +288,7 @@ export const updateContact = async (req, res) => {
         }
 
         await contact.save();
-
+        console.log(contact)
         return res.status(200).json({
             success: true,
             message: "Contact updated successfully",
