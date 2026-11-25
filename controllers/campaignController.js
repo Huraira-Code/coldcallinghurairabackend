@@ -53,7 +53,15 @@ export const createCampaign = async (req, res) => {
 
 export const getAllCampaigns = async (req, res) => {
     try {
-        const campaigns = await Campaign.find()
+        const { categoryId } = req.query;
+
+        const filter = {};
+
+        if (categoryId) {
+            filter.categoryId = categoryId;
+        }
+
+        const campaigns = await Campaign.find(filter)
             .populate("categoryId", "name")
             .sort({ createdAt: -1 });
 
